@@ -70,10 +70,10 @@ ${NAME}: ${OBJ_SWITCH}
 	${CC} ${CFLAGS} -c $< -o $@ -I${INC}
 
 clean:
-	${RM} ${OBJS} ${OBJS_B}
+	@${RM} ${OBJS} ${OBJS_B}
 
 fclean: clean
-	${RM} ${NAME}
+	@${RM} ${NAME}
 
 re: fclean all
 
