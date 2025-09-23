@@ -1,3 +1,8 @@
+# --- Colors for fancy output ---
+GREEN = \033[0;32m
+BLUE = \033[0;34m
+RESET = \033[0m
+
 NAME 	= libft.a
 INC		= includes
 HEADER	= libft.h
@@ -53,7 +58,7 @@ OBJS	= ${SRCS:.c=.o}
 OBJS_B  = ${SRCS_B:.c=.o}
 
 ifdef WITH_BONUS
-	OBJ_SWITCH = ${OBJS} ${OBJS_B} 
+	OBJ_SWITCH = ${OBJS} ${OBJS_B}
 else
 	OBJ_SWITCH = ${OBJS}
 endif
@@ -61,18 +66,23 @@ endif
 all: ${NAME}
 
 bonus:
-	${MAKE} WITH_BONUS=1 all
+	@${MAKE} WITH_BONUS=1 all
 
 ${NAME}: ${OBJ_SWITCH}
-	${LIBC} $@ $^
+	@echo "$(BLUE)Archiving object files into $(NAME)...$(RESET)"
+	@${LIBC} $@ $^
+	@echo "$(GREEN)✓ libft.a successfully created!$(RESET)"
 
-%.o: %.c ${INC}/${HEADER}
-	${CC} ${CFLAGS} -c $< -o $@ -I${INC}
+%.o: %.c
+	@printf "$(BLUE)Compiling libft source: %-30s$(RESET)\r" $<
+	@${CC} ${CFLAGS} -c $< -o $@ -I${INC}
 
 clean:
+	@echo "$(BLUE)Cleaning libft object files...$(RESET)"
 	@${RM} ${OBJS} ${OBJS_B}
 
 fclean: clean
+	@echo "$(BLUE)Cleaning up libft library file...$(RESET)"
 	@${RM} ${NAME}
 
 re: fclean all
