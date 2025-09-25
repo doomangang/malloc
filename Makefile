@@ -13,7 +13,7 @@ NAME = $(NAME_BASE)_$(HOSTTYPE).so
 SYM_NAME = libft_malloc.so
 
 SRCS_DIR = srcs
-SRCS = $(SRCS_DIR)/malloc.c
+SRCS = $(SRCS_DIR)/malloc.c $(SRCS_DIR)/free.c
 OBJS = $(SRCS:.c=.o)
 
 # libft 라이브러리 경로
@@ -42,6 +42,11 @@ $(LIBFT_A):
 	@echo "$(YELLOW)Compiling malloc source: $<...$(RESET)"
 	@$(CC) $(CFLAGS) -c $< -o $@ -Iinc
 
+test: all
+	@echo "$(YELLOW)Compiling test program for macOS...$(RESET)"
+	@$(CC) $(CFLAGS) -o test test.c
+	@echo "$(GREEN)✓ Test executable 'test' created. Run it with DYLD_INSERT_LIBRARIES.$(RESET)"
+
 clean:
 	@echo "$(YELLOW)Cleaning malloc object files...$(RESET)"
 	@rm -f $(OBJS)
@@ -49,9 +54,9 @@ clean:
 
 fclean: clean
 	@echo "$(YELLOW)Cleaning up all generated files...$(RESET)"
-	@rm -f $(NAME) $(SYM_NAME)
+	@rm -f $(NAME) $(SYM_NAME) test
 	@make -C libft fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re test

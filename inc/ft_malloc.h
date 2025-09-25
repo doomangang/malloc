@@ -5,6 +5,11 @@
 # include <unistd.h>
 # include <sys/mman.h>
 
+# define TINY_MAX_SIZE 128 // N
+# define SMALL_MAX_SIZE 1024 // M
+# define MIN_ALLOC_COUNT 100
+
+
 //memory block metadata
 typedef struct s_block {
     size_t  size;
@@ -21,5 +26,8 @@ typedef struct s_heap {
 }t_heap;
 
 extern t_heap g_heap;
+
+static size_t g_tiny_zone_size = 0;
+static size_t g_small_zone_size = 0;
 
 #endif

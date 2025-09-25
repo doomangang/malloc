@@ -21,9 +21,6 @@ void *allocate_large(size_t size) {
 
     return ((void *)new_block + sizeof(t_block));
 }
-//temporal maximum size def
-#define TINY_MAX_SIZE 128
-#define SMALL_MAX_SIZE 1024
 
 void *malloc(size_t size) {
     if (size <= 0) return NULL;
