@@ -1,5 +1,9 @@
 #include "../inc/ft_malloc.h"
 
+static size_t align(size_t size) {
+    return ((((size - 1) / ALIGNMENT) + 1) * ALIGNMENT);
+}
+
 static size_t calculate_zone_size(size_t max_block_size) {
     size_t pagesize = getpagesize();
     size_t min_required_size;

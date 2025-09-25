@@ -9,7 +9,7 @@
 # define SMALL_MAX_SIZE 1024 // M
 # define MIN_ALLOC_COUNT 100
 
-# define 
+# define ALIGNMENT 16
 
 //memory block metadata
 typedef struct s_block {
@@ -54,6 +54,7 @@ static void     free_block_in_zone(t_block* block_to_free);
 void            coalesce_adjacent_block(t_block *block);
 
 /* ------------------------ utils.c ------------------------- */
+static size_t   align(size_t size);
 static size_t   calculate_zone_size(size_t max_block_size);
 size_t          get_tiny_zone_size(void);
 size_t          get_small_zone_size(void);
