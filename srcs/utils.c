@@ -9,12 +9,14 @@ static size_t calculate_zone_size(size_t max_block_size) {
     return (((min_required_size - 1) / pagesize) + 1) * pagesize;
 }
 
-void set_tiny_zone_size(void) {
+size_t get_tiny_zone_size(void) {
     if (!g_tiny_zone_size)
         g_tiny_zone_size = calculate_zone_size(TINY_MAX_SIZE);
+    return g_tiny_zone_size;
 }
 
-void set_small_zone_size(void) {
+size_t get_small_zone_size(void) {
     if (!g_small_zone_size)
         g_small_zone_size = calculate_zone_size(SMALL_MAX_SIZE);
+    return g_small_zone_size;
 }
