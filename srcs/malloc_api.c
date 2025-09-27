@@ -21,7 +21,10 @@ void free(void* ptr) {
 
     t_block *block_meta = (t_block *)((void *)ptr - sizeof(t_block));
 
-    //TODO: tiny and small
-    free_large_block(block_meta);
+    t_block *block_type = find_block_by_ptr(block_meta);
+    if (block_type == g_heap.small || block_type == g_heap.tiny)
+        free_block_in_zone(block_meta);
+    else
+        free_large(block_meta);
 }
 

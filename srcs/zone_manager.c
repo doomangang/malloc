@@ -21,6 +21,9 @@ void *find_or_create_block(t_block **zone_head, size_t required_size) {
         
         found_block = create_new_zone(zone_size_to_create);
         if (!found_block) return NULL;
+
+        found_block->next = *zone_head;
+        *zone_head = found_block;
     }
     //필요한 크기 만큼의 block을 split 하고 할당
     split_block(found_block, required_size);
@@ -29,6 +32,42 @@ void *find_or_create_block(t_block **zone_head, size_t required_size) {
     return ((void *)found_block + sizeof(t_block));
 }
 
-static t_block *create_new_zone(size_t zone_size) {
+static t_block  *find_free_block(t_block *zone_head, size_t size) {
+    t_block *curr = zone_head;
 
+    while (curr) {
+        if (curr->is_free == 1 && curr->size >= size)
+            return curr;
+        curr = curr->next;
+    }
+    return NULL;
+}
+
+static void split_block(t_block *block, size_t required_size) {
+    if (block->size < required_size + sizeof(t_block) + ALIGNMENT)
+        return ;
+    
+    t_block *remainder_block = (t_block *)((void *)block + required_size);
+    remainder_block->size = block->size - required_size;
+    remainder_block->is_free = 1;
+
+    remainder_block->next = block->next;
+    block->next = remainder_block;
+    block->size = required_size;
+}
+
+static t_block *create_new_zone(size_t zone_size) {
+    t_block *new_zone = mmap(NULL,
+                            zone_size,
+                            PROT_READ | PROT_WRITE,
+                            MAP_PRIVATE | MAP_ANON,
+                            -1, 0);
+    if (new_zone == MAP_FAILED)
+        return NULL;
+
+    new_zone->is_free = 1;
+    new_zone->next = NULL;
+    new_zone->size = zone_size;
+    
+    return new_zone;
 }

@@ -24,3 +24,30 @@ size_t get_small_zone_size(void) {
         g_small_zone_size = calculate_zone_size(SMALL_MAX_SIZE);
     return g_small_zone_size;
 }
+
+void *find_block_by_ptr(void *ptr) {
+    if (!ptr) return ;
+
+    t_block *curr = g_heap.tiny;
+    while(curr) {
+        if (curr == ptr)
+            return g_heap.tiny;
+        curr = curr->next;
+    }
+
+    curr = g_heap.small;
+    while (curr) {
+        if (curr == ptr)
+            return g_heap.small;
+        curr = curr->next;
+    }
+
+    curr = g_heap.large;
+    while (curr) {
+        if (curr == ptr)
+            return g_heap.large;
+        curr = curr->next;
+    }
+
+    return NULL;
+}
