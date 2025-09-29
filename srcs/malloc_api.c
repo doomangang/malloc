@@ -40,7 +40,7 @@ void *realloc(void *ptr, size_t size) {
     size_t required_size = size + sizeof(t_block);
 
     t_block *block = (t_block *)(ptr - sizeof(t_block));
-    
+
     /*
     * 1. shrinking
     * 2. growing
@@ -61,6 +61,7 @@ void *realloc(void *ptr, size_t size) {
     {
         coalesce_adjacent_block(block);
         split_block(block, required_size);
+        return ptr;
     }
 
     void* new_ptr = malloc(size);
