@@ -51,3 +51,33 @@ void *find_block_by_ptr(void *ptr) {
 
     return NULL;
 }
+
+/**
+ * @brief  특정 Zone 리스트를 순회하며 할당된 블록 정보를 출력하고 총량을 반환
+ * @param  zone_name  "TINY", "SMALL", "LARGE" 같은 Zone 이름
+ * @param  zone_head  해당 Zone 리스트의 시작 포인터
+ * @return            해당 Zone에서 할당된 총 바이트 수
+ */
+static size_t print_zone_allocs(const char *zone_name, t_block *zone_head)
+{
+    size_t total_bytes = 0;
+
+    ft_printf("%s : %p\n", zone_name, zone_head);
+
+    t_block *current = zone_head;
+    while (current)
+    {
+        if (!current->is_free)
+        {
+            void *start_addr = (void *)current + sizeof(t_block);
+            void *end_addr = (void *)current + current->size;
+            size_t user_size = current->size - sizeof(t_block);
+
+            ft_printf("%p - %p : %zu bytes\n", start_addr, end_addr, user_size);
+            
+            total_bytes += user_size;
+        }
+        current = current->next;
+    }
+    return (total_bytes);
+}

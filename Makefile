@@ -4,7 +4,6 @@ YELLOW = \033[0;33m
 RESET = \033[0m
 
 NAME_BASE = libft_malloc
-# HOSTTYPE 환경 변수 확인 및 설정 (과제 요구사항)
 ifeq ($(HOSTTYPE),)
     HOSTTYPE := $(shell uname -m)-$(shell uname -s)
 endif
@@ -13,50 +12,59 @@ NAME = $(NAME_BASE)_$(HOSTTYPE).so
 SYM_NAME = libft_malloc.so
 
 SRCS_DIR = srcs
-SRCS = $(SRCS_DIR)/malloc.c $(SRCS_DIR)/free.c
+SRCS = $(SRCS_DIR)/malloc.c $(SRCS_DIR)/free.c $(SRCS_DIR)/realloc.c $(SRCS_DIR)/show_alloc_mem.c # 등등...
 OBJS = $(SRCS:.c=.o)
 
-# libft 라이브러리 경로
-LIBFT_A = libft/libft.a
+# --- 라이브러리 경로 설정 ---
+LIBFT_DIR = libft
+LIBFT_A = $(LIBFT_DIR)/libft.a
 
+PRINTF_DIR = ft_printf
+PRINTF_A = $(PRINTF_DIR)/libftprintf.a
+
+# --- 컴파일 및 링크 설정 ---
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
+# 헤더 경로 추가 (-Ift_printf)
+LFLAGS = -L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf
 
 all: $(NAME)
 
-# 최종 공유 라이브러리 생성 규칙
-$(NAME): $(LIBFT_A) $(OBJS)
+$(NAME): $(LIBFT_A) $(PRINTF_A) $(OBJS)
 	@echo "$(YELLOW)Linking object files to create shared library: $(NAME)...$(RESET)"
-	@$(CC) $(CFLAGS) -shared -o $(NAME) $(OBJS) -Llibft -lft
+	# 링크 명령어에 $(LFLAGS) 사용
+	@$(CC) $(CFLAGS) -shared -o $(NAME) $(OBJS) $(LFLAGS)
 	@echo "$(YELLOW)Creating symbolic link: $(SYM_NAME) -> $(NAME)...$(RESET)"
 	@ln -sf $(NAME) $(SYM_NAME)
 	@echo "$(GREEN)✓ Malloc library successfully created!$(RESET)"
 
-# libft.a 파일이 필요할 때 libft 폴더의 make를 실행
+# libft.a 빌드 규칙
 $(LIBFT_A):
 	@echo "$(YELLOW)Building dependency: libft.a...$(RESET)"
-	@make -C libft
+	@make -C $(LIBFT_DIR)
 
-# malloc.c 컴파일 규칙 추가
+# libftprintf.a 빌드 규칙 (새로 추가)
+$(PRINTF_A):
+	@echo "$(YELLOW)Building dependency: libftprintf.a...$(RESET)"
+	@make -C $(PRINTF_DIR)
+
 %.o: %.c
 	@echo "$(YELLOW)Compiling malloc source: $<...$(RESET)"
-	@$(CC) $(CFLAGS) -c $< -o $@ -Iinc
-
-test: all
-	@echo "$(YELLOW)Compiling test program for macOS...$(RESET)"
-	@$(CC) $(CFLAGS) -o test test.c
-	@echo "$(GREEN)✓ Test executable 'test' created. Run it with DYLD_INSERT_LIBRARIES.$(RESET)"
+	# 헤더 검색 경로에 inc와 ft_printf 추가
+	@$(CC) $(CFLAGS) -c $< -o $@ -Iinc -I$(PRINTF_DIR)
 
 clean:
 	@echo "$(YELLOW)Cleaning malloc object files...$(RESET)"
 	@rm -f $(OBJS)
-	@make -C libft clean
+	@make -C $(LIBFT_DIR) clean
+	@make -C $(PRINTF_DIR) clean
 
 fclean: clean
 	@echo "$(YELLOW)Cleaning up all generated files...$(RESET)"
-	@rm -f $(NAME) $(SYM_NAME) test
-	@make -C libft fclean
+	@rm -f $(NAME) $(SYM_NAME)
+	@make -C $(LIBFT_DIR) fclean
+	@make -C $(PRINTF_DIR) fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re test
+.PHONY: all clean fclean re

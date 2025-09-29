@@ -2,6 +2,7 @@
 # define FT_MALLOC_H
 
 # include "../libft/libft.h"
+# include "../ft_printf/ft_printf.h"
 # include <unistd.h>
 # include <sys/mman.h>
 
@@ -59,5 +60,6 @@ static size_t   calculate_zone_size(size_t max_block_size);
 size_t          get_tiny_zone_size(void);
 size_t          get_small_zone_size(void);
 void            *find_block_by_ptr(void *ptr);
+static size_t   print_zone_allocs(const char *zone_name, t_block *zone_head);
 
 #endif
