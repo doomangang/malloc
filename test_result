@@ -1,0 +1,89 @@
+TINY : 0x1042f57bc
+0x1042f0018 - 0x1042f0018 : 70189080 bytes
+SMALL : 0x1042f57c1
+0x10430c018 - 0x10430c018 : 70303768 bytes
+LARGE : 0x1042f57c7
+0x104328018 - 0x104328018 : 70418456 bytes
+Total : 8752 bytes
+TINY : 0x1042f57bc
+SMALL : 0x1042f57c1
+LARGE : 0x1042f57c7
+Total : 0 bytes
+TINY : 0x1042f57bc
+0x1042f0018 - 0x1042f0018 : 70189080 bytes
+SMALL : 0x1042f57c1
+LARGE : 0x1042f57c7
+Total : 10 bytes
+TINY : 0x1042f57bc
+0x1042f0058 - 0x1042f0058 : 70189144 bytes
+0x1042f0098 - 0x1042f0098 : 70189208 bytes
+SMALL : 0x1042f57c1
+LARGE : 0x1042f57c7
+Total : 176 bytes
+TINY : 0x1042f57bc
+0x1042f0018 - 0x1042f0018 : 70189080 bytes
+SMALL : 0x1042f57c1
+LARGE : 0x1042f57c7
+Total : 40 bytes
+TINY : 0x1042f57bc
+0x1042f0018 - 0x1042f0018 : 70189080 bytes
+SMALL : 0x1042f57c1
+LARGE : 0x1042f57c7
+Total : 80 bytes
+TINY : 0x1042f57bc
+SMALL : 0x1042f57c1
+LARGE : 0x1042f57c7
+Total : 0 bytes
+
+[0;33m====================================================[0m
+[0;33m[1. BASIC MALLOC & FREE TESTS][0m
+[0;33m====================================================[0m
+--- Allocating TINY, SMALL, LARGE blocks ---
+[0;32m✓ SUCCESS:[0m TINY allocation and write
+[0;32m✓ SUCCESS:[0m SMALL allocation and write
+[0;32m✓ SUCCESS:[0m LARGE allocation and write
+
+--- Current memory state ---
+
+--- Freeing all blocks ---
+All blocks freed.
+
+--- Memory state after free ---
+
+[0;33m====================================================[0m
+[0;33m[2. REALLOC TESTS][0m
+[0;33m====================================================[0m
+
+--- 2-1. Realloc - Shrinking ---
+Original ptr: 0x1042f0018, content: "12345678901234567890"
+Shrunk ptr:   0x1042f0018, content: "123456789"
+[0;32m✓ SUCCESS:[0m Shrinking realloc content check
+
+--- Memory state after shrinking ---
+
+--- 2-2. Realloc - Growing (new allocation) ---
+Original ptr: 0x1042f0018, content: "original data"
+Grown ptr:    0x1042f0098, content: "original data"
+[0;32m✓ SUCCESS:[0m Growing realloc (new alloc) content check
+
+--- Memory state after growing (new alloc) ---
+
+--- 2-3. Realloc - Growing (in-place merge) ---
+Allocated ptr1 at 0x1042f0018 and ptr2, then freed ptr2.
+--- Memory state before in-place realloc ---
+Reallocating ptr1 from 32 to 80 bytes...
+[0;32m✓ SUCCESS:[0m In-place realloc successful (pointer did not change)
+[0;32m✓ SUCCESS:[0m In-place realloc content check
+
+--- Memory state after in-place realloc ---
+
+[0;33m====================================================[0m
+[0;33m[3. EDGE CASE TESTS][0m
+[0;33m====================================================[0m
+[0;32m✓ SUCCESS:[0m realloc(NULL, size)
+✓ SUCCESS: realloc(ptr, 0) executed (should act like free)
+[0;32m✓ SUCCESS:[0m malloc(0) returned NULL as expected.
+
+--- FINAL MEMORY STATE ---
+
+[0;32mAll tests finished![0m

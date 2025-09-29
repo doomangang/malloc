@@ -56,7 +56,7 @@ void *realloc(void *ptr, size_t size) {
             split_block(block, size + sizeof(t_block));
         return ptr;
     }
-    if (zone == g_heap.small || zone == g_heap.tiny && block->next 
+    if ((zone == g_heap.small || zone == g_heap.tiny) && block->next
         && block->next->size + block->size >= required_size) 
     {
         coalesce_adjacent_block(block);
@@ -92,5 +92,5 @@ void show_alloc_mem()
     total_allocated += print_zone_allocs("SMALL", g_heap.small);
     total_allocated += print_zone_allocs("LARGE", g_heap.large);
 
-    ft_printf("Total : %zu bytes\n", total_allocated);
+    ft_printf("Total : %u bytes\n", (unsigned int)total_allocated);
 }

@@ -32,7 +32,7 @@ void *find_or_create_block(t_block **zone_head, size_t required_size) {
     return ((void *)found_block + sizeof(t_block));
 }
 
-static t_block  *find_free_block(t_block *zone_head, size_t size) {
+t_block  *find_free_block(t_block *zone_head, size_t size) {
     t_block *curr = zone_head;
 
     while (curr) {
@@ -43,7 +43,7 @@ static t_block  *find_free_block(t_block *zone_head, size_t size) {
     return NULL;
 }
 
-static void split_block(t_block *block, size_t required_size) {
+void split_block(t_block *block, size_t required_size) {
     if (block->size < required_size + sizeof(t_block) + ALIGNMENT)
         return ;
     
@@ -56,7 +56,7 @@ static void split_block(t_block *block, size_t required_size) {
     block->size = required_size;
 }
 
-static t_block *create_new_zone(size_t zone_size) {
+t_block *create_new_zone(size_t zone_size) {
     t_block *new_zone = mmap(NULL,
                             zone_size,
                             PROT_READ | PROT_WRITE,

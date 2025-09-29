@@ -20,7 +20,7 @@ void *allocate_large(size_t size) {
     return ((void *)new_block + sizeof(t_block));
 }
 
-static void free_large(t_block* block_to_free) {
+void free_large(t_block* block_to_free) {
     t_block* current = g_heap.large;
     t_block* prev = NULL;
 

@@ -1,5 +1,5 @@
 #include "../inc/ft_malloc.h"
-static void free_block_in_zone(t_block* block_to_free) {
+void free_block_in_zone(t_block* block_to_free) {
     block_to_free->is_free = 1;
     coalesce_adjacent_block(block_to_free);
 }

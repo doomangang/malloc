@@ -1,10 +1,10 @@
 #include "../inc/ft_malloc.h"
 
-static size_t align(size_t size) {
+size_t align(size_t size) {
     return ((((size - 1) / ALIGNMENT) + 1) * ALIGNMENT);
 }
 
-static size_t calculate_zone_size(size_t max_block_size) {
+size_t calculate_zone_size(size_t max_block_size) {
     size_t pagesize = getpagesize();
     size_t min_required_size;
 
@@ -26,7 +26,7 @@ size_t get_small_zone_size(void) {
 }
 
 void *find_block_by_ptr(void *ptr) {
-    if (!ptr) return ;
+    if (!ptr) return NULL;
 
     t_block *curr = g_heap.tiny;
     while(curr) {
@@ -58,7 +58,7 @@ void *find_block_by_ptr(void *ptr) {
  * @param  zone_head  해당 Zone 리스트의 시작 포인터
  * @return            해당 Zone에서 할당된 총 바이트 수
  */
-static size_t print_zone_allocs(const char *zone_name, t_block *zone_head)
+size_t print_zone_allocs(const char *zone_name, t_block *zone_head)
 {
     size_t total_bytes = 0;
 
@@ -73,7 +73,7 @@ static size_t print_zone_allocs(const char *zone_name, t_block *zone_head)
             void *end_addr = (void *)current + current->size;
             size_t user_size = current->size - sizeof(t_block);
 
-            ft_printf("%p - %p : %zu bytes\n", start_addr, end_addr, user_size);
+            ft_printf("%p - %p : %u bytes\n", start_addr, end_addr, (unsigned int)user_size);
             
             total_bytes += user_size;
         }

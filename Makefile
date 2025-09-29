@@ -53,6 +53,11 @@ $(PRINTF_A):
 	# 헤더 검색 경로에 inc와 ft_printf 추가
 	@$(CC) $(CFLAGS) -c $< -o $@ -Iinc -I$(PRINTF_DIR)
 
+test: all
+	@echo "$(YELLOW)Compiling test program...$(RESET)"
+	@$(CC) $(CFLAGS) -o test test.c -L. -lft_malloc
+	@echo "$(GREEN)✓ Test program successfully compiled! Run it with: LD_PRELOAD=./libft_malloc.so ./test$(RESET)"
+
 clean:
 	@echo "$(YELLOW)Cleaning malloc object files...$(RESET)"
 	@rm -f $(OBJS)
