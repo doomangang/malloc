@@ -12,7 +12,7 @@ NAME = $(NAME_BASE)_$(HOSTTYPE).so
 SYM_NAME = libft_malloc.so
 
 SRCS_DIR = srcs
-SRCS = $(SRCS_DIR)/malloc.c $(SRCS_DIR)/free.c $(SRCS_DIR)/realloc.c $(SRCS_DIR)/show_alloc_mem.c # 등등...
+SRCS = $(SRCS_DIR)/free.c $(SRCS_DIR)/large.c $(SRCS_DIR)/malloc_api.c $(SRCS_DIR)/utils.c $(SRCS_DIR)/zone_manager.c # 등등...
 OBJS = $(SRCS:.c=.o)
 
 # --- 라이브러리 경로 설정 ---

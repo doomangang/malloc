@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon < jihyjeon@student.42seoul.kr>    +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 20:15:30 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/02/20 16:58:13 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2025/09/29 17:13:49 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 int	str_printer(char *s)
 {
 	int	len;
-	int	idx;
 
 	len = 0;
-	idx = 0;
 	if (!s)
 		return (str_printer("(null)"));
 	while (*(s + len))
