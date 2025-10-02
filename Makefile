@@ -23,7 +23,7 @@ PRINTF_DIR = ft_printf
 PRINTF_A = $(PRINTF_DIR)/libftprintf.a
 
 # --- 컴파일 및 링크 설정 ---
-CC = gcc
+CC = gcc -g
 CFLAGS = -Wall -Wextra -Werror
 # 헤더 경로 추가 (-Ift_printf)
 LFLAGS = -L$(LIBFT_DIR) -lft -L$(PRINTF_DIR) -lftprintf
@@ -66,7 +66,7 @@ clean:
 
 fclean: clean
 	@echo "$(YELLOW)Cleaning up all generated files...$(RESET)"
-	@rm -f $(NAME) $(SYM_NAME)
+	@rm -f $(NAME) $(SYM_NAME) test
 	@make -C $(LIBFT_DIR) fclean
 	@make -C $(PRINTF_DIR) fclean
 

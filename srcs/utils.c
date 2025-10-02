@@ -73,7 +73,7 @@ size_t print_zone_allocs(const char *zone_name, t_block *zone_head)
             void *end_addr = (void *)current + current->size;
             size_t user_size = current->size - sizeof(t_block);
 
-            ft_printf("%p - %p : %u bytes\n", start_addr, end_addr, (unsigned int)user_size);
+            ft_printf("%p - %p : %u bytes\n", end_addr, start_addr, (unsigned int)user_size);
             
             total_bytes += user_size;
         }

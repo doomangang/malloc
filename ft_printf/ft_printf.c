@@ -6,7 +6,7 @@
 /*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 16:11:44 by jihyjeon          #+#    #+#             */
-/*   Updated: 2025/09/29 17:31:49 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:00:58 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_printf(const char *fmt, ...)
 			len = char_printer(*str);
 		else
 		{
-			len = format_printer(str, ptr);
+			len = format_printer(str, &ptr); // 포인터로 전달
 			if (*(str + 1))
 				str++;
 		}
@@ -41,29 +41,28 @@ int	ft_printf(const char *fmt, ...)
 	return (cnt);
 }
 
-int	format_printer(const char *s, va_list p)
+int	format_printer(const char *s, va_list *p)
 {
 	char	c;
 	int		len;
 
 	c = *(s + 1);
 	if (c == 'c')
-		len = char_printer(va_arg(p, int));
+		len = char_printer(va_arg(*p, int));
 	if (c == 's')
-		len = str_printer(va_arg(p, char *));
+		len = str_printer(va_arg(*p, char *));
 	if (c == 'p')
-		len = pointer_printer(va_arg(p, unsigned long long));
+		len = pointer_printer((unsigned long long)(uintptr_t)va_arg(*p, void *));
 	if (c == 'd' || c == 'i')
-		len = num_printer((long long)va_arg(p, int));
+		len = num_printer((long long)va_arg(*p, int));
 	if (c == 'u')
-		len = unsigned_printer(va_arg(p, unsigned int), "0123456789");
+		len = unsigned_printer(va_arg(*p, unsigned int), "0123456789");
 	if (c == 'x')
-		len = unsigned_printer(va_arg(p, unsigned int), "0123456789abcdef");
+		len = unsigned_printer(va_arg(*p, unsigned int), "0123456789abcdef");
 	if (c == 'X')
-		len = unsigned_printer(va_arg(p, unsigned int), "0123456789ABCDEF");
+		len = unsigned_printer(va_arg(*p, unsigned int), "0123456789ABCDEF");
 	if (c == '%')
 		len = char_printer('%');
-	p++;
 	return (len);
 }
 

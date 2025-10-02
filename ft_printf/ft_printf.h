@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jihyjeon < jihyjeon@student.42seoul.kr>    +#+  +:+       +#+        */
+/*   By: jihyjeon <jihyjeon@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 16:11:48 by jihyjeon          #+#    #+#             */
-/*   Updated: 2024/02/21 17:58:00 by jihyjeon         ###   ########.fr       */
+/*   Updated: 2025/10/02 14:00:59 by jihyjeon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <unistd.h>
 
 int	ft_printf(const char *fmt, ...);
-int	format_printer(const char *s, va_list p);
+int	format_printer(const char *s, va_list *p);
 int	char_printer(int c);
 int	str_printer(char *s);
 int	pointer_printer(unsigned long long n);
